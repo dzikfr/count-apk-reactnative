@@ -1,23 +1,27 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Button, ToastAndroid, Image } from "react-native";
-const icon = require("../assets/images/react-logo.png");
+const icon = require("../assets/images/nasgor.png");
 
 export default function HomeScreen() {
   const [count, setCount] = useState(0);
+  const [cart, setCart] = useState(0);
 
   const countPlusHandle = () => {
     setCount(count + 1);
-    ToastAndroid.show("Count ditambahkan", ToastAndroid.SHORT);
   };
 
   const countMinusHandle = () => {
     setCount(count - 1);
-    ToastAndroid.show("Count dikurangkan", ToastAndroid.SHORT);
   };
 
-  const resetHandle = () => {
+  const saveHandle = () => {
     setCount(0);
-    ToastAndroid.show("Count direset", ToastAndroid.SHORT);
+    if (cart + count >= 0) {
+      setCart(cart + count);
+      ToastAndroid.show("Cart berhasil ditambahkan", ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show("Cart tidak bisa kurang dari 0", ToastAndroid.SHORT);
+    }
   };
 
   return (
@@ -45,8 +49,10 @@ export default function HomeScreen() {
 
       {/* Tombol Save */}
       <View style={styles.saveButton}>
-        <Button title="RESET" onPress={resetHandle} color="#2196F3" />
+        <Text style={styles.cartText}>Cart: {cart}</Text>
+        <Button title="SAVE" onPress={saveHandle} color="#2196F3" />
       </View>
+
     </View>
   );
 }
@@ -60,6 +66,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    color: "#333",
+  },
+  text :{
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
@@ -106,4 +119,10 @@ const styles = StyleSheet.create({
     right: 20,
     backgroundColor: "#f5f5f5",
   },
+  cartText: {
+    fontSize: 21,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#555",
+  }
 });
